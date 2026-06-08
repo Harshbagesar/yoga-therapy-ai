@@ -1,0 +1,239 @@
+
+> yoga-therapy-ai@1.0.0 lint
+> eslint
+
+
+/home/alska/Downloads/yoga/yoga 2/src/app/api/assistant/route.ts
+  148:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  208:57  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  224:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/alska/Downloads/yoga/yoga 2/src/app/page.tsx
+  13:37  warning  'Star' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/alska/Downloads/yoga/yoga 2/src/components/AdminPanel.tsx
+  5:49  warning  'Asana' is defined but never used      @typescript-eslint/no-unused-vars
+  5:56  warning  'Pranayama' is defined but never used  @typescript-eslint/no-unused-vars
+  7:54  warning  'Check' is defined but never used      @typescript-eslint/no-unused-vars
+  7:69  warning  'Eye' is defined but never used        @typescript-eslint/no-unused-vars
+
+/home/alska/Downloads/yoga/yoga 2/src/components/AiAssistant.tsx
+  8:52  warning  'Volume2' is defined but never used          @typescript-eslint/no-unused-vars
+  8:67  warning  'UserCheck' is defined but never used        @typescript-eslint/no-unused-vars
+  9:10  warning  'motion' is defined but never used           @typescript-eslint/no-unused-vars
+  9:18  warning  'AnimatePresence' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/alska/Downloads/yoga/yoga 2/src/components/DailyPlanner.tsx
+   8:54  warning  'RefreshCw' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  38:16  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+  47:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/alska/Downloads/yoga/yoga 2/src/components/DailyPlanner.tsx:47:9
+  45 |       const totalSteps = (activeSession?.asanaIds.length || 0) + (activeSession?.pranayamaIds.length || 0);
+  46 |       if (currentStepIdx < totalSteps - 1) {
+> 47 |         setCurrentStepIdx((prev) => prev + 1);
+     |         ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  48 |         setSessionTimeLeft(60); // 1 minute per pose/exercise
+  49 |       } else {
+  50 |         handleFinishSession();  react-hooks/set-state-in-effect
+  50:9   error    Error: Cannot access variable before it is declared
+
+`handleFinishSession` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/home/alska/Downloads/yoga/yoga 2/src/components/DailyPlanner.tsx:50:9
+  48 |         setSessionTimeLeft(60); // 1 minute per pose/exercise
+  49 |       } else {
+> 50 |         handleFinishSession();
+     |         ^^^^^^^^^^^^^^^^^^^ `handleFinishSession` accessed before it is declared
+  51 |       }
+  52 |     }
+  53 |     return () => clearInterval(timer);
+
+/home/alska/Downloads/yoga/yoga 2/src/components/DailyPlanner.tsx:66:3
+  64 |   };
+  65 |
+> 66 |   const handleFinishSession = () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 67 |     setIsSessionRunning(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 68 |     setSessionCompleted(true);
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 84 |     }
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 85 |   };
+     | ^^^^^ `handleFinishSession` is declared here
+  86 |
+  87 |   const handleCloseSession = () => {
+  88 |     setActiveSession(null);                                                                                                 react-hooks/immutability
+  54:6   warning  React Hook useEffect has a missing dependency: 'handleFinishSession'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/exhaustive-deps
+  58:11  warning  'totalSteps' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+
+/home/alska/Downloads/yoga/yoga 2/src/components/EducationalSection.tsx
+  173:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/alska/Downloads/yoga/yoga 2/src/components/EducationalSection.tsx:173:9
+  171 |       const saved = localStorage.getItem("custom_articles");
+  172 |       if (saved) {
+> 173 |         setCustomArticles(JSON.parse(saved));
+      |         ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  174 |       }
+  175 |     }
+  176 |   }, []);  react-hooks/set-state-in-effect
+
+/home/alska/Downloads/yoga/yoga 2/src/components/Header.tsx
+   4:18  warning  'Language' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  25:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/alska/Downloads/yoga/yoga 2/src/components/Header.tsx:25:7
+  23 |     const storedUser = localStorage.getItem("yoga-user");
+  24 |     if (storedUser) {
+> 25 |       setCurrentUser(storedUser);
+     |       ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  26 |       setIsLoggedIn(storedUser !== "Guest User");
+  27 |     }
+  28 |   }, []);  react-hooks/set-state-in-effect
+
+/home/alska/Downloads/yoga/yoga 2/src/components/LandingPage.tsx
+   6:40   warning  'Disease' is defined but never used                       @typescript-eslint/no-unused-vars
+  10:18   warning  'Heart' is defined but never used                         @typescript-eslint/no-unused-vars
+  10:90   warning  'BookOpen' is defined but never used                      @typescript-eslint/no-unused-vars
+  10:100  warning  'Clock' is defined but never used                         @typescript-eslint/no-unused-vars
+  18:21   warning  'bookmarkedAsanas' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  18:39   warning  'toggleBookmarkAsana' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/home/alska/Downloads/yoga/yoga 2/src/components/ProgressDashboard.tsx
+   4:18  warning  'SessionLog' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   8:59  warning  'Dumbbell' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  32:29  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/alska/Downloads/yoga/yoga 2/src/components/ProgressDashboard.tsx:32:29
+  30 |     
+  31 |     for (let i = 6; i >= 0; i--) {
+> 32 |       const date = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
+     |                             ^^^^^^^^^^ Cannot call impure function
+  33 |       const dateString = date.toISOString().split("T")[0];
+  34 |       const matchingLog = sessionLogs.find((log) => log.date === dateString);
+  35 |         react-hooks/purity
+
+/home/alska/Downloads/yoga/yoga 2/src/components/ReportGenerator.tsx
+  8:70  warning  'Award' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/alska/Downloads/yoga/yoga 2/src/components/TextToSpeech.tsx
+   4:19  warning  'VolumeX' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  15:10  warning  'utterance' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  19:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/alska/Downloads/yoga/yoga 2/src/components/TextToSpeech.tsx:19:7
+  17 |   useEffect(() => {
+  18 |     if (typeof window !== "undefined") {
+> 19 |       setSynth(window.speechSynthesis);
+     |       ^^^^^^^^ Avoid calling setState() directly within an effect
+  20 |     }
+  21 |
+  22 |     return () => {  react-hooks/set-state-in-effect
+
+/home/alska/Downloads/yoga/yoga 2/src/components/VoiceSearch.tsx
+  13:50  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  18:20  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  18:57  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  41:33  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  46:34  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  53:9   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/alska/Downloads/yoga/yoga 2/src/components/VoiceSearch.tsx:53:9
+  51 |         };
+  52 |
+> 53 |         setRecognition(recog);
+     |         ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  54 |       }
+  55 |     }
+  56 |   }, [language, onResult]);  react-hooks/set-state-in-effect
+
+/home/alska/Downloads/yoga/yoga 2/src/context/AppContext.tsx
+    4:10  warning  'Disease' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+    4:19  warning  'Asana' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+    4:26  warning  'PRANAYAMAS' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+   58:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/alska/Downloads/yoga/yoga 2/src/context/AppContext.tsx:58:7
+  56 |     const storedTheme = localStorage.getItem("yoga-theme") as "light" | "dark";
+  57 |     if (storedTheme) {
+> 58 |       setTheme(storedTheme);
+     |       ^^^^^^^^ Avoid calling setState() directly within an effect
+  59 |       document.documentElement.classList.toggle("dark", storedTheme === "dark");
+  60 |     } else {
+  61 |       document.documentElement.classList.add("dark");  react-hooks/set-state-in-effect
+  105:7   error    Error: Cannot access variable before it is declared
+
+`calculateStreak` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/home/alska/Downloads/yoga/yoga 2/src/context/AppContext.tsx:105:7
+  103 |       const parsedLogs: SessionLog[] = JSON.parse(storedLogs);
+  104 |       setSessionLogs(parsedLogs);
+> 105 |       calculateStreak(parsedLogs);
+      |       ^^^^^^^^^^^^^^^ `calculateStreak` accessed before it is declared
+  106 |     }
+  107 |   }, []);
+  108 |
+
+/home/alska/Downloads/yoga/yoga 2/src/context/AppContext.tsx:184:3
+  182 |   };
+  183 |
+> 184 |   const calculateStreak = (logs: SessionLog[]) => {
+      |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 185 |     if (logs.length === 0) {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 186 |       setStreak(0);
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 221 |     setStreak(currentStreak);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 222 |   };
+      | ^^^^^ `calculateStreak` is declared here
+  223 |
+  224 |   return (
+  225 |     <AppContext.Provider                                                                     react-hooks/immutability
+  164:9   error    'updatedLogs' is never reassigned. Use 'const' instead                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           prefer-const
+
+✖ 46 problems (19 errors, 27 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
