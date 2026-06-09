@@ -7,9 +7,94 @@ import { ASANAS, PRANAYAMAS } from "@/data/yoga-db";
 import { getTranslatedAsana, getTranslatedPranayama } from "@/lib/getTranslatedData";
 import { BarChart3, Plus, Trash2, Calendar, Clock, Flame, Sparkles } from "lucide-react";
 
+const progressTranslations = {
+  en: {
+    practiceDuration: "Practice Duration",
+    minutesSuffix: "Minutes",
+    logPractice: "Log Practice",
+    sessionsSuffix: "Sessions",
+    weeklyWorkoutSummary: "Weekly Workout Summary",
+    noWorkoutData: "No practice data logged for this week.",
+    form: {
+      title: "Log Manual Practice Session",
+      durationLabel: "Duration (Minutes)",
+      asanasLabel: "Select Completed Asanas",
+      pranayamaLabel: "Select Completed Pranayama",
+      btnSave: "Save Log",
+      btnCancel: "Cancel"
+    },
+    table: {
+      title: "Practice Session Logs",
+      thDate: "Date",
+      thDuration: "Duration",
+      thAsanas: "Asanas Completed",
+      thPranayamas: "Pranayamas Completed",
+      thAction: "Action",
+      minsSuffix: "mins",
+      noSessions: "No sessions logged yet. Log a workout above or complete a planner routine!"
+    },
+    weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  },
+  mr: {
+    practiceDuration: "सराव कालावधी",
+    minutesSuffix: "मिनिटे",
+    logPractice: "सराव नोंदवा",
+    sessionsSuffix: "सत्रे",
+    weeklyWorkoutSummary: "साप्ताहिक सराव गोषवारा",
+    noWorkoutData: "या आठवड्यासाठी कोणताही सराव डेटा नोंदवला गेला नाही.",
+    form: {
+      title: "स्थानिक सराव सत्र नोंदवा",
+      durationLabel: "कालावधी (मिनिटे)",
+      asanasLabel: "पूर्ण केलेली आसने निवडा",
+      pranayamaLabel: "पूर्ण केलेला प्राणायाम निवडा",
+      btnSave: "जतन करा",
+      btnCancel: "रद्द करा"
+    },
+    table: {
+      title: "सराव सत्र नोंदी",
+      thDate: "दिनांक",
+      thDuration: "कालावधी",
+      thAsanas: "पूर्ण केलेली आसने",
+      thPranayamas: "पूर्ण केलेले प्राणायाम",
+      thAction: "कृती",
+      minsSuffix: "मिनिटे",
+      noSessions: "अद्याप कोणतीही सत्रे नोंदवली गेली नाहीत. वर सराव नोंदवा किंवा नियोजन दिनचर्या पूर्ण करा!"
+    },
+    weekdays: ["रवि", "सोम", "मंगळ", "बुध", "गुरु", "शुक्र", "शनि"]
+  },
+  hi: {
+    practiceDuration: "अभ्यास अवधि",
+    minutesSuffix: "मिनट",
+    logPractice: "अभ्यास दर्ज करें",
+    sessionsSuffix: "सत्र",
+    weeklyWorkoutSummary: "साप्ताहिक अभ्यास सारांश",
+    noWorkoutData: "इस सप्ताह के लिए कोई अभ्यास डेटा दर्ज नहीं किया गया है।",
+    form: {
+      title: "मैनुअल अभ्यास सत्र दर्ज करें",
+      durationLabel: "अवधि (मिनट)",
+      asanasLabel: "पूरे किए गए आसन चुनें",
+      pranayamaLabel: "पूरे किए गए प्राणायाम चुनें",
+      btnSave: "सहेजें",
+      btnCancel: "रद्द करें"
+    },
+    table: {
+      title: "अभ्यास सत्र लॉग",
+      thDate: "तारीख",
+      thDuration: "अवधि",
+      thAsanas: "पूरे किए गए आसन",
+      thPranayamas: "पूरे किए गए प्राणायाम",
+      thAction: "कार्रवाई",
+      minsSuffix: "मिनट",
+      noSessions: "अभी तक कोई सत्र दर्ज नहीं किया गया है। ऊपर एक वर्कआउट दर्ज करें या एक नियोजक दिनचर्या पूरी करें!"
+    },
+    weekdays: ["रवि", "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनि"]
+  }
+};
+
 export const ProgressDashboard: React.FC = () => {
   const { language, sessionLogs, logSession, streak } = useApp();
   const t = translations[language];
+  const pt = progressTranslations[language] || progressTranslations.en;
 
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [logDuration, setLogDuration] = useState(20);
@@ -26,7 +111,7 @@ export const ProgressDashboard: React.FC = () => {
   // Compile last 7 days practice data for SVG Bar Chart
   const weeklyData = useMemo(() => {
     const data = [];
-    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const weekdays = pt.weekdays;
     const now = new Date();
     
     for (let i = 6; i >= 0; i--) {
@@ -41,7 +126,7 @@ export const ProgressDashboard: React.FC = () => {
       });
     }
     return data;
-  }, [sessionLogs]);
+  }, [sessionLogs, pt.weekdays]);
 
   const maxMinutes = Math.max(...weeklyData.map((d) => d.minutes), 30); // scale chart minimum to 30
 
@@ -112,7 +197,7 @@ export const ProgressDashboard: React.FC = () => {
           </div>
           <div>
             <span className="text-xxs font-bold text-slate-500 uppercase tracking-wider block">{t.completedSessions}</span>
-            <span className="text-xl font-bold text-white">{totalSessions} Sessions</span>
+            <span className="text-xl font-bold text-white">{totalSessions} {pt.sessionsSuffix}</span>
           </div>
         </div>
 
@@ -122,8 +207,8 @@ export const ProgressDashboard: React.FC = () => {
             <Clock className="h-6 w-6" />
           </div>
           <div>
-            <span className="text-xxs font-bold text-slate-500 uppercase tracking-wider block">Practice Duration</span>
-            <span className="text-xl font-bold text-white">{totalMinutes} Minutes</span>
+            <span className="text-xxs font-bold text-slate-500 uppercase tracking-wider block">{pt.practiceDuration}</span>
+            <span className="text-xl font-bold text-white">{totalMinutes} {pt.minutesSuffix}</span>
           </div>
         </div>
       </div>
@@ -141,7 +226,7 @@ export const ProgressDashboard: React.FC = () => {
               className="flex items-center space-x-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition-all"
             >
               <Plus className="h-4 w-4" />
-              <span>Log Practice</span>
+              <span>{pt.logPractice}</span>
             </button>
           </div>
 
@@ -157,10 +242,10 @@ export const ProgressDashboard: React.FC = () => {
                   <line x1="40" y1="210" x2="480" y2="210" stroke="rgba(255,255,255,0.15)" />
 
                   {/* Y Axis Labels */}
-                  <text x="30" y="35" fill="#64748b" fontSize="10" textAnchor="end">{Math.round(maxMinutes)}m</text>
-                  <text x="30" y="95" fill="#64748b" fontSize="10" textAnchor="end">{Math.round(maxMinutes / 2)}m</text>
-                  <text x="30" y="155" fill="#64748b" fontSize="10" textAnchor="end">{Math.round(maxMinutes / 4)}m</text>
-                  <text x="30" y="215" fill="#64748b" fontSize="10" textAnchor="end">0m</text>
+                  <text x="30" y="35" fill="#64748b" fontSize="10" textAnchor="end">{Math.round(maxMinutes)}{language === "mr" ? "मि" : language === "hi" ? "मि" : "m"}</text>
+                  <text x="30" y="95" fill="#64748b" fontSize="10" textAnchor="end">{Math.round(maxMinutes / 2)}{language === "mr" ? "मि" : language === "hi" ? "मि" : "m"}</text>
+                  <text x="30" y="155" fill="#64748b" fontSize="10" textAnchor="end">{Math.round(maxMinutes / 4)}{language === "mr" ? "मि" : language === "hi" ? "मि" : "m"}</text>
+                  <text x="30" y="215" fill="#64748b" fontSize="10" textAnchor="end">0{language === "mr" ? "मि" : language === "hi" ? "मि" : "m"}</text>
 
                   {/* Bars & Labels */}
                   {weeklyData.map((d, index) => {
@@ -198,7 +283,7 @@ export const ProgressDashboard: React.FC = () => {
                             fontWeight="bold"
                             textAnchor="middle"
                           >
-                            {d.minutes}m
+                            {d.minutes}{language === "mr" ? "मि" : language === "hi" ? "मि" : "m"}
                           </text>
                         )}
                         {/* X Axis Labels */}
@@ -232,7 +317,7 @@ export const ProgressDashboard: React.FC = () => {
             ) : (
               <div className="flex flex-col items-center justify-center p-8 text-center space-y-3">
                 <BarChart3 className="h-10 w-10 text-slate-600 animate-bounce" />
-                <p className="text-slate-400 text-sm">{t.noWorkoutData}</p>
+                <p className="text-slate-400 text-sm">{pt.noWorkoutData}</p>
               </div>
             )}
           </div>
@@ -242,13 +327,13 @@ export const ProgressDashboard: React.FC = () => {
         {isLogOpen && (
           <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 backdrop-blur-md h-fit">
             <h3 className="text-white font-bold text-base pb-3 border-b border-white/10 mb-4 flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-emerald-400" /> {t.logSessionTitle}
+              <Sparkles className="h-4 w-4 text-emerald-400" /> {pt.form.title}
             </h3>
 
             <form onSubmit={handleManualLog} className="space-y-4">
               <div>
                 <label className="block text-xxs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-                  Duration (Minutes)
+                  {pt.form.durationLabel}
                 </label>
                 <input
                   type="number"
@@ -263,7 +348,7 @@ export const ProgressDashboard: React.FC = () => {
 
               <div>
                 <label className="block text-xxs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-                  Select Completed Asanas
+                  {pt.form.asanasLabel}
                 </label>
                 <div className="max-h-24 overflow-y-auto border border-white/5 rounded-xl p-2.5 space-y-1 bg-slate-950/20">
                   {translatedAsanas.map((asana) => {
@@ -287,7 +372,7 @@ export const ProgressDashboard: React.FC = () => {
 
               <div>
                 <label className="block text-xxs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-                  Select Completed Pranayama
+                  {pt.form.pranayamaLabel}
                 </label>
                 <div className="max-h-24 overflow-y-auto border border-white/5 rounded-xl p-2.5 space-y-1 bg-slate-950/20">
                   {translatedPranayamas.map((p) => {
@@ -314,14 +399,14 @@ export const ProgressDashboard: React.FC = () => {
                   type="submit"
                   className="flex-1 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 py-2.5 text-xs font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-teal-300 transition-all"
                 >
-                  Save Log
+                  {pt.form.btnSave}
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsLogOpen(false)}
                   className="rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 px-4 py-2.5 text-xs font-semibold text-slate-300 transition-all"
                 >
-                  Cancel
+                  {pt.form.btnCancel}
                 </button>
               </div>
             </form>
@@ -332,18 +417,18 @@ export const ProgressDashboard: React.FC = () => {
       {/* History Log Table */}
       <div className="mt-12 rounded-2xl border border-white/10 bg-slate-900/40 p-6 backdrop-blur-md">
         <h3 className="text-white font-bold text-base mb-4 flex items-center gap-2">
-          <Calendar className="h-5 w-5 text-emerald-400" /> Practice Session Logs
+          <Calendar className="h-5 w-5 text-emerald-400" /> {pt.table.title}
         </h3>
 
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm text-slate-300">
             <thead>
               <tr className="border-b border-white/10 text-slate-400 text-xxs font-bold uppercase tracking-wider">
-                <th className="py-3 px-4">Date</th>
-                <th className="py-3 px-4">Duration</th>
-                <th className="py-3 px-4">Asanas Completed</th>
-                <th className="py-3 px-4">Pranayamas Completed</th>
-                <th className="py-3 px-4 text-right">Action</th>
+                <th className="py-3 px-4">{pt.table.thDate}</th>
+                <th className="py-3 px-4">{pt.table.thDuration}</th>
+                <th className="py-3 px-4">{pt.table.thAsanas}</th>
+                <th className="py-3 px-4">{pt.table.thPranayamas}</th>
+                <th className="py-3 px-4 text-right">{pt.table.thAction}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -354,7 +439,7 @@ export const ProgressDashboard: React.FC = () => {
                   </td>
                   <td className="py-4 px-4 font-medium">
                     <span className="flex items-center gap-1">
-                      <Clock className="h-4 w-4 text-teal-400" /> {log.duration} mins
+                      <Clock className="h-4 w-4 text-teal-400" /> {log.duration} {pt.table.minsSuffix}
                     </span>
                   </td>
                   <td className="py-4 px-4 text-xs">
@@ -392,7 +477,7 @@ export const ProgressDashboard: React.FC = () => {
               {sessionLogs.length === 0 && (
                 <tr>
                   <td colSpan={5} className="py-8 text-center text-slate-500 italic">
-                    No sessions logged yet. Log a workout above or complete a planner routine!
+                    {pt.table.noSessions}
                   </td>
                 </tr>
               )}

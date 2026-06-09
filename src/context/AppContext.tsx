@@ -87,9 +87,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [language, setLanguageState] = useState<Language>(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("yoga-lang") as Language | null;
-      if (stored) return stored;
+      if (stored === "hi") return "hi";
     }
-    return "en";
+    return "mr";
   });
   const [bookmarkedAsanas, setBookmarkedAsanas] = useState<string[]>(() => {
     if (typeof window !== "undefined") {

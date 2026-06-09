@@ -9,6 +9,69 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { getTranslatedArticle } from "@/lib/getTranslatedData";
 
+const eduTranslations = {
+  en: {
+    searchPlaceholder: "Search articles...",
+    noArticles: "No educational articles matched your query.",
+    backToArticles: "Back to Articles",
+    readArticle: "Read Article",
+    categories: {
+      all: "All",
+      science: "Science",
+      philosophy: "Philosophy",
+      history: "History",
+      lifestyle: "Lifestyle"
+    },
+    placeholders: {
+      title: "e.g. Benefits of Hatha Yoga",
+      readTime: "e.g. 5 min read",
+      summary: "Provide a brief summary of the article...",
+      content: "Enter the full article text. Use double asterisks **like this** for bold highlights, or dash - for bullet lists.",
+      fillFields: "Please fill in the title, summary, and content fields."
+    }
+  },
+  mr: {
+    searchPlaceholder: "लेख शोधा...",
+    noArticles: "तुमच्या शोधाशी जुळणारा कोणताही लेख सापडला नाही.",
+    backToArticles: "लेखांकडे परत जा",
+    readArticle: "लेख वाचा",
+    categories: {
+      all: "सर्व",
+      science: "विज्ञान",
+      philosophy: "तत्त्वज्ञान",
+      history: "इतिहास",
+      lifestyle: "जीवनशैली"
+    },
+    placeholders: {
+      title: "उदा. हठयोगाचे फायदे",
+      readTime: "उदा. ५ मिनिटे वाचन",
+      summary: "लेखाचा थोडक्यात गोषवारा द्या...",
+      content: "लेखाचा पूर्ण मजकूर प्रविष्ट करा. ठळक हायलाइट्ससाठी **या प्रकारे** डबल अ‍ॅस्टरिक्स किंवा सूचीसाठी डॅश - वापरा.",
+      fillFields: "कृपया शीर्षक, सारांश आणि मजकूर फील्ड भरा."
+    }
+  },
+  hi: {
+    searchPlaceholder: "लेख खोजें...",
+    noArticles: "आपकी खोज से मेल खाता कोई लेख नहीं मिला।",
+    backToArticles: "लेखों पर वापस जाएं",
+    readArticle: "लेख पढ़ें",
+    categories: {
+      all: "सभी",
+      science: "विज्ञान",
+      philosophy: "दर्शनशास्त्र",
+      history: "इतिहास",
+      lifestyle: "जीवनशैली"
+    },
+    placeholders: {
+      title: "उदा. हठयोग के लाभ",
+      readTime: "उदा. 5 मिनट पठन",
+      summary: "लेख का संक्षिप्त सारांश प्रदान करें...",
+      content: "लेख का पूरा पाठ दर्ज करें। बोल्ड हाइलाइट्स के लिए **इस तरह** डबल एस्टेरिक्स या सूची के लिए डैश - का उपयोग करें.",
+      fillFields: "कृपया शीर्षक, सारांश और सामग्री फ़ील्ड भरें।"
+    }
+  }
+};
+
 const formatInlineMarkdown = (text: string): string => {
   let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-emerald-300">$1</strong>');
   formatted = formatted.replace(/\*(.*?)\*/g, '<em class="italic text-emerald-100">$1</em>');
@@ -69,9 +132,7 @@ const renderFormattedContent = (content: string): React.ReactNode[] => {
   lines.forEach((line, index) => {
     const trimmedLine = line.trim();
 
-    // Table row starts with "|"
     if (trimmedLine.startsWith("|")) {
-      // If we were in a list, flush it
       if (inList) {
         flushList(String(index));
       }
@@ -89,12 +150,10 @@ const renderFormattedContent = (content: string): React.ReactNode[] => {
       return;
     }
 
-    // If we were in a table and this is not a table row, flush the table
     if (inTable) {
       flushTable(String(index));
     }
 
-    // Empty line
     if (!trimmedLine) {
       if (inList) {
         flushList(String(index));
@@ -103,7 +162,6 @@ const renderFormattedContent = (content: string): React.ReactNode[] => {
       return;
     }
 
-    // List item starts with "- " or "* "
     if (trimmedLine.startsWith("- ") || trimmedLine.startsWith("* ")) {
       inList = true;
       const cleanText = trimmedLine.substring(2);
@@ -113,12 +171,10 @@ const renderFormattedContent = (content: string): React.ReactNode[] => {
       return;
     }
 
-    // If it was a list and now it is a normal line, flush the list
     if (inList) {
       flushList(String(index));
     }
 
-    // Heading like **Heading** on its own line
     if (trimmedLine.startsWith("**") && trimmedLine.endsWith("**") && trimmedLine.length > 4) {
       const headingText = trimmedLine.slice(2, -2);
       renderedElements.push(
@@ -129,13 +185,11 @@ const renderFormattedContent = (content: string): React.ReactNode[] => {
       return;
     }
 
-    // Normal paragraph
     renderedElements.push(
       <p key={`p-${index}`} className="text-slate-300 leading-relaxed my-2" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmedLine) }} />
     );
   });
 
-  // Flush any remaining list or table at the end
   if (inList) {
     flushList("end");
   }
@@ -149,12 +203,12 @@ const renderFormattedContent = (content: string): React.ReactNode[] => {
 export const EducationalSection: React.FC = () => {
   const { language } = useApp();
   const t = translations[language];
+  const et = eduTranslations[language] || eduTranslations.en;
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
 
-  // Custom articles state loaded on client to prevent hydration issues
   const [customArticles, setCustomArticles] = useState<Article[]>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("custom_articles");
@@ -164,7 +218,6 @@ export const EducationalSection: React.FC = () => {
   });
   const [showAddModal, setShowAddModal] = useState(false);
 
-  // Form states
   const [newTitle, setNewTitle] = useState("");
   const [newCategory, setNewCategory] = useState("Science");
   const [newReadTime, setNewReadTime] = useState("");
@@ -178,8 +231,13 @@ export const EducationalSection: React.FC = () => {
     }
   }, [selectedArticle]);
 
-  // Get unique categories
-  const categories = ["All", "Science", "Philosophy", "History", "Lifestyle"];
+  const categories = [
+    { id: "All", label: et.categories.all },
+    { id: "Science", label: et.categories.science },
+    { id: "Philosophy", label: et.categories.philosophy },
+    { id: "History", label: et.categories.history },
+    { id: "Lifestyle", label: et.categories.lifestyle }
+  ];
 
   const allArticles = [...EDUCATIONAL_ARTICLES, ...customArticles];
   const translatedArticles = allArticles.map(art => getTranslatedArticle(art, language));
@@ -199,7 +257,7 @@ export const EducationalSection: React.FC = () => {
   const handleAddArticle = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim() || !newSummary.trim() || !newContent.trim()) {
-      setFormError("Please fill in the title, summary, and content fields.");
+      setFormError(et.placeholders.fillFields);
       return;
     }
 
@@ -207,7 +265,7 @@ export const EducationalSection: React.FC = () => {
       id: `custom-${Date.now()}`,
       title: newTitle.trim(),
       category: newCategory,
-      readTime: newReadTime.trim() || "3 min read",
+      readTime: newReadTime.trim() || (language === "mr" ? "३ मिनिटे वाचन" : language === "hi" ? "3 मिनट पठन" : "3 min read"),
       summary: newSummary.trim(),
       content: newContent.trim(),
     };
@@ -218,7 +276,6 @@ export const EducationalSection: React.FC = () => {
       localStorage.setItem("custom_articles", JSON.stringify(updated));
     }
 
-    // Reset fields
     setNewTitle("");
     setNewCategory("Science");
     setNewReadTime("");
@@ -256,7 +313,7 @@ export const EducationalSection: React.FC = () => {
                   <Search className="absolute top-3 left-3.5 h-4.5 w-4.5 text-slate-400" />
                   <input
                     type="text"
-                    placeholder="Search articles..."
+                    placeholder={et.searchPlaceholder}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-slate-900/60 pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
@@ -277,54 +334,57 @@ export const EducationalSection: React.FC = () => {
             <div className="flex flex-wrap gap-2">
               {categories.map((cat) => (
                 <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
                   className={`rounded-xl px-4.5 py-2 text-xs font-bold tracking-wide transition-all border ${
-                    selectedCategory === cat
+                    selectedCategory === cat.id
                       ? "bg-emerald-500 border-transparent text-white shadow-md shadow-emerald-500/10"
                       : "bg-white/5 border-white/5 text-slate-400 hover:text-white"
                   }`}
                 >
-                  {cat}
+                  {cat.label}
                 </button>
               ))}
             </div>
 
             {/* Articles Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredArticles.map((article) => (
-                <div
-                  key={article.id}
-                  onClick={() => setSelectedArticle(article)}
-                  className="group rounded-2xl border border-white/10 bg-slate-900/40 p-6 backdrop-blur-md hover:border-emerald-500/30 hover:bg-slate-900/60 transition-all duration-300 cursor-pointer flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-center justify-between text-xxs font-bold text-emerald-400 uppercase tracking-widest mb-3">
-                      <span>{article.category}</span>
-                      <span className="flex items-center text-slate-500 normal-case font-normal">
-                        <Clock className="h-3 w-3 mr-1" /> {article.readTime}
-                      </span>
+              {filteredArticles.map((article) => {
+                const categoryLabel = categories.find(c => c.id.toLowerCase() === article.category.toLowerCase())?.label || article.category;
+                return (
+                  <div
+                    key={article.id}
+                    onClick={() => setSelectedArticle(article)}
+                    className="group rounded-2xl border border-white/10 bg-slate-900/40 p-6 backdrop-blur-md hover:border-emerald-500/30 hover:bg-slate-900/60 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-xxs font-bold text-emerald-400 uppercase tracking-widest mb-3">
+                        <span>{categoryLabel}</span>
+                        <span className="flex items-center text-slate-500 normal-case font-normal">
+                          <Clock className="h-3 w-3 mr-1" /> {article.readTime}
+                        </span>
+                      </div>
+
+                      <h3 className="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors leading-snug">
+                        {article.title}
+                      </h3>
+                      
+                      <p className="mt-3 text-xs text-slate-400 line-clamp-3 leading-relaxed">
+                        {article.summary}
+                      </p>
                     </div>
 
-                    <h3 className="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors leading-snug">
-                      {article.title}
-                    </h3>
-                    
-                    <p className="mt-3 text-xs text-slate-400 line-clamp-3 leading-relaxed">
-                      {article.summary}
-                    </p>
+                    <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xxs font-bold uppercase tracking-wider text-emerald-400 group-hover:translate-x-1 transition-all">
+                      <span>{et.readArticle}</span>
+                      <span>→</span>
+                    </div>
                   </div>
-
-                  <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xxs font-bold uppercase tracking-wider text-emerald-400 group-hover:translate-x-1 transition-all">
-                    <span>Read Article</span>
-                    <span>→</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
 
               {filteredArticles.length === 0 && (
                 <p className="text-sm text-slate-500 py-8 text-center col-span-3">
-                  No educational articles matched your query.
+                  {et.noArticles}
                 </p>
               )}
             </div>
@@ -343,13 +403,13 @@ export const EducationalSection: React.FC = () => {
               className="flex items-center space-x-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              <span>Back to Articles</span>
+              <span>{et.backToArticles}</span>
             </button>
 
             {/* Article Meta */}
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-xxs font-bold uppercase tracking-widest text-emerald-400">
-                <span>{selectedArticle.category}</span>
+                <span>{categories.find(c => c.id.toLowerCase() === selectedArticle.category.toLowerCase())?.label || selectedArticle.category}</span>
                 <span className="h-1.5 w-1.5 rounded-full bg-white/10"></span>
                 <span className="flex items-center text-slate-400 font-normal normal-case">
                   <Clock className="h-3.5 w-3.5 mr-1" /> {selectedArticle.readTime}
@@ -416,7 +476,7 @@ export const EducationalSection: React.FC = () => {
                     required
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
-                    placeholder="e.g. Benefits of Hatha Yoga"
+                    placeholder={et.placeholders.title}
                     className="w-full rounded-xl border border-white/10 bg-slate-950/40 px-4 py-2.5 text-xs text-white placeholder-slate-600 focus:border-emerald-500 focus:outline-none transition-all"
                   />
                 </div>
@@ -432,10 +492,10 @@ export const EducationalSection: React.FC = () => {
                       onChange={(e) => setNewCategory(e.target.value)}
                       className="w-full rounded-xl border border-white/10 bg-slate-950/40 px-4 py-2.5 text-xs text-white focus:border-emerald-500 focus:outline-none transition-all"
                     >
-                      <option value="Science">Science</option>
-                      <option value="Philosophy">Philosophy</option>
-                      <option value="History">History</option>
-                      <option value="Lifestyle">Lifestyle</option>
+                      <option value="Science">{et.categories.science}</option>
+                      <option value="Philosophy">{et.categories.philosophy}</option>
+                      <option value="History">{et.categories.history}</option>
+                      <option value="Lifestyle">{et.categories.lifestyle}</option>
                     </select>
                   </div>
 
@@ -447,7 +507,7 @@ export const EducationalSection: React.FC = () => {
                       type="text"
                       value={newReadTime}
                       onChange={(e) => setNewReadTime(e.target.value)}
-                      placeholder="e.g. 5 min read"
+                      placeholder={et.placeholders.readTime}
                       className="w-full rounded-xl border border-white/10 bg-slate-950/40 px-4 py-2.5 text-xs text-white placeholder-slate-600 focus:border-emerald-500 focus:outline-none transition-all"
                     />
                   </div>
@@ -463,7 +523,7 @@ export const EducationalSection: React.FC = () => {
                     rows={2}
                     value={newSummary}
                     onChange={(e) => setNewSummary(e.target.value)}
-                    placeholder="Provide a brief summary of the article..."
+                    placeholder={et.placeholders.summary}
                     className="w-full rounded-xl border border-white/10 bg-slate-950/40 px-4 py-2.5 text-xs text-white placeholder-slate-600 focus:border-emerald-500 focus:outline-none transition-all resize-none"
                   />
                 </div>
@@ -478,7 +538,7 @@ export const EducationalSection: React.FC = () => {
                     rows={6}
                     value={newContent}
                     onChange={(e) => setNewContent(e.target.value)}
-                    placeholder="Enter the full article text. Use double asterisks **like this** for bold highlights, or dash - for bullet lists."
+                    placeholder={et.placeholders.content}
                     className="w-full rounded-xl border border-white/10 bg-slate-950/40 px-4 py-2.5 text-xs text-white placeholder-slate-600 focus:border-emerald-500 focus:outline-none transition-all resize-y"
                   />
                 </div>

@@ -153,11 +153,11 @@ function MainLayout() {
           </p>
 
           <div className="flex justify-center gap-4 text-xxs text-slate-400 font-bold uppercase tracking-wider pt-2">
-            <span>Section 508 Compliant</span>
+            <span>{t.accessibilitySection508}</span>
             <span className="text-white/10">|</span>
-            <span>WAI-ARIA Accessibility Standards</span>
+            <span>{t.accessibilityWaiAria}</span>
             <span className="text-white/10">|</span>
-            <span>Clinical Verification Logs</span>
+            <span>{t.clinicalVerificationLogs}</span>
           </div>
         </div>
       </footer>

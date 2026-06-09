@@ -9,6 +9,69 @@ import { Plus, Trash2, Play, Calendar, Clock, Check, X, Award, Flame } from "luc
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 
+const plannerTranslations = {
+  en: {
+    asanasSuffix: "Asanas",
+    breathworkSuffix: "Breathwork",
+    newRoutineDetails: "New Routine Details",
+    routinePlaceholder: "e.g., Post-Work Decompress",
+    inProgress: "Routine In Progress",
+    step: "Step",
+    of: "of",
+    asanaType: "🧘 Asana",
+    pranayamaType: "🌬️ Pranayama",
+    timeLeft: "Time Left",
+    pause: "Pause",
+    resume: "Resume",
+    skipFinish: "Skip / Finish",
+    congratsTitle: "Namaste! Routine Complete",
+    congratsDesc: "Congratulations! You have completed the routine.",
+    practicedLabel: "Practiced",
+    streakLabel: "Active Streak",
+    btnClose: "Close Window"
+  },
+  mr: {
+    asanasSuffix: "आसने",
+    breathworkSuffix: "प्राणायाम",
+    newRoutineDetails: "नवीन दिनचर्या तपशील",
+    routinePlaceholder: "उदा., कामाच्या वेळेनंतर आराम",
+    inProgress: "दिनचर्या सुरू आहे",
+    step: "टप्पा",
+    of: "पैकी",
+    asanaType: "🧘 आसन",
+    pranayamaType: "🌬️ प्राणायाम",
+    timeLeft: "उर्वरित वेळ",
+    pause: "विराम द्या",
+    resume: "पुन्हा सुरू करा",
+    skipFinish: "वगळा / समाप्त करा",
+    congratsTitle: "नमस्ते! दिनचर्या पूर्ण झाली",
+    congratsDesc: "अभिनंदन! तुम्ही तुमची दिनचर्या पूर्ण केली आहे.",
+    practicedLabel: "सराव केला",
+    streakLabel: "सक्रिय श्रेणी",
+    btnClose: "खिडकी बंद करा"
+  },
+  hi: {
+    asanasSuffix: "आसन",
+    breathworkSuffix: "प्राणायाम",
+    newRoutineDetails: "नया दिनचर्या विवरण",
+    routinePlaceholder: "उदा., काम के बाद विश्राम",
+    inProgress: "दिनचर्या प्रगति पर है",
+    step: "कदम",
+    of: "का",
+    asanaType: "🧘 आसन",
+    pranayamaType: "🌬️ प्राणायाम",
+    timeLeft: "समय शेष",
+    pause: "रोकें",
+    resume: "फिर शुरू करें",
+    skipFinish: "छोड़ें / समाप्त करें",
+    congratsTitle: "नमस्ते! दिनचर्या पूर्ण हुई",
+    congratsDesc: "बधाई हो! आपने अपनी दिनचर्या पूरी कर ली है।",
+    practicedLabel: "अभ्यास किया",
+    streakLabel: "सक्रिय सिलसिला",
+    btnClose: "खिड़की बंद करें"
+  }
+};
+
 export const DailyPlanner: React.FC = () => {
   const { 
     language, 
@@ -19,6 +82,7 @@ export const DailyPlanner: React.FC = () => {
     streak 
   } = useApp();
   const t = translations[language];
+  const dpt = plannerTranslations[language] || plannerTranslations.en;
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [newRoutineName, setNewRoutineName] = useState("");
@@ -218,13 +282,13 @@ export const DailyPlanner: React.FC = () => {
                   </h4>
                   <div className="mt-2 flex items-center gap-3 text-xs text-slate-400">
                     <span className="flex items-center">
-                      <Clock className="h-3.5 w-3.5 mr-1 text-emerald-400" /> {routine.duration} mins
+                      <Clock className="h-3.5 w-3.5 mr-1 text-emerald-400" /> {routine.duration} {language === "mr" ? "मि" : language === "hi" ? "मि" : "mins"}
                     </span>
                     <span className="rounded bg-white/5 px-2 py-0.5 border border-white/5">
-                      {routine.asanaIds.length} Asanas
+                      {routine.asanaIds.length} {dpt.asanasSuffix}
                     </span>
                     <span className="rounded bg-white/5 px-2 py-0.5 border border-white/5">
-                      {routine.pranayamaIds.length} Breathwork
+                      {routine.pranayamaIds.length} {dpt.breathworkSuffix}
                     </span>
                   </div>
                 </div>
@@ -261,7 +325,7 @@ export const DailyPlanner: React.FC = () => {
         {isFormOpen && (
           <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 backdrop-blur-md h-fit">
             <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
-              <h3 className="text-white font-bold text-base">New Routine Details</h3>
+              <h3 className="text-white font-bold text-base">{dpt.newRoutineDetails}</h3>
               <button onClick={() => setIsFormOpen(false)} className="text-slate-400 hover:text-white">
                 <X className="h-5 w-5" />
               </button>
@@ -275,10 +339,10 @@ export const DailyPlanner: React.FC = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g., Post-Work Decompress"
+                  placeholder={dpt.routinePlaceholder}
                   value={newRoutineName}
                   onChange={(e) => setNewRoutineName(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
+                  className="w-full rounded-xl border border-white/10 bg-slate-950/40 px-4.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
@@ -374,7 +438,7 @@ export const DailyPlanner: React.FC = () => {
                 <>
                   <div className="flex items-center justify-between border-b border-white/5 pb-4">
                     <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">
-                      Routine In Progress: {activeSession.name}
+                      {dpt.inProgress}: {activeSession.name}
                     </span>
                     <button
                       onClick={handleCloseSession}
@@ -387,7 +451,7 @@ export const DailyPlanner: React.FC = () => {
                   {/* Pose/Technique Display */}
                   <div className="space-y-2 py-4">
                     <span className="text-xxs font-bold text-slate-500 uppercase tracking-widest block">
-                      Step {currentStepIdx + 1} of {activeSessionSteps.length} • {currentStep?.type === "asana" ? "🧘 Asana" : "🌬️ Pranayama"}
+                      {dpt.step} {currentStepIdx + 1} {dpt.of} {activeSessionSteps.length} • {currentStep?.type === "asana" ? dpt.asanaType : dpt.pranayamaType}
                     </span>
                     <h3 className="text-3xl font-extrabold text-white animate-pulse">
                       {currentStep?.name}
@@ -404,7 +468,7 @@ export const DailyPlanner: React.FC = () => {
                         {Math.floor(sessionTimeLeft / 60)}:{(sessionTimeLeft % 60).toString().padStart(2, "0")}
                       </span>
                       <span className="block text-xxs font-bold text-slate-500 uppercase tracking-wider mt-1">
-                        Time Left
+                        {dpt.timeLeft}
                       </span>
                     </div>
 
@@ -422,14 +486,14 @@ export const DailyPlanner: React.FC = () => {
                           : "bg-emerald-500 text-white hover:bg-emerald-400 shadow-lg shadow-emerald-500/15"
                       }`}
                     >
-                      {isSessionRunning ? "Pause" : "Resume"}
+                      {isSessionRunning ? dpt.pause : dpt.resume}
                     </button>
 
                     <button
                       onClick={handleFinishSession}
                       className="rounded-xl bg-slate-800 border border-white/10 hover:bg-slate-700 px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-300 transition-all"
                     >
-                      Skip / Finish
+                      {dpt.skipFinish}
                     </button>
                   </div>
                 </>
@@ -442,21 +506,21 @@ export const DailyPlanner: React.FC = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <h3 className="text-3xl font-extrabold text-white">Namaste! Routine Complete</h3>
+                    <h3 className="text-3xl font-extrabold text-white">{dpt.congratsTitle}</h3>
                     <p className="text-sm text-slate-400 max-w-sm mx-auto">
-                      Congratulations! You have completed <strong>{activeSession.name}</strong> ({activeSession.duration} minutes of practice).
+                      {dpt.congratsDesc} <strong>{activeSession.name}</strong> ({activeSession.duration} {language === "mr" ? "मिनिटांचा सराव" : language === "hi" ? "मिनट का अभ्यास" : "minutes of practice"}).
                     </p>
                   </div>
 
                   <div className="rounded-2xl bg-white/5 border border-white/5 p-4 flex items-center justify-center gap-6 max-w-xs mx-auto">
                     <div className="text-center">
-                      <span className="block text-xl font-bold text-white">{activeSession.duration}m</span>
-                      <span className="text-xxs text-slate-500 uppercase font-bold tracking-wider">Practiced</span>
+                      <span className="block text-xl font-bold text-white">{activeSession.duration}{language === "mr" ? "मि" : language === "hi" ? "मि" : "m"}</span>
+                      <span className="text-xxs text-slate-500 uppercase font-bold tracking-wider">{dpt.practicedLabel}</span>
                     </div>
                     <div className="h-8 w-px bg-white/10"></div>
                     <div className="text-center">
                       <span className="block text-xl font-bold text-white">🔥 {streak}</span>
-                      <span className="text-xxs text-slate-500 uppercase font-bold tracking-wider">Active Streak</span>
+                      <span className="text-xxs text-slate-500 uppercase font-bold tracking-wider">{dpt.streakLabel}</span>
                     </div>
                   </div>
 
@@ -465,7 +529,7 @@ export const DailyPlanner: React.FC = () => {
                       onClick={handleCloseSession}
                       className="rounded-xl bg-emerald-500 hover:bg-emerald-400 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-all"
                     >
-                      Close Window
+                      {dpt.btnClose}
                     </button>
                   </div>
                 </div>

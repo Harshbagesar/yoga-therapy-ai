@@ -10,6 +10,90 @@ import { TextToSpeech } from "./TextToSpeech";
 import { Search, Heart, Eye, ArrowRight, X, Clock, Dumbbell, ShieldAlert, Award } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const libraryTranslations = {
+  en: {
+    tabAsanas: "Yoga Asanas (Postures)",
+    tabPranayamas: "Pranayamas (Breathing)",
+    difficultyLabel: "Difficulty:",
+    allLevels: "All Levels",
+    beginner: "Beginner",
+    intermediate: "Intermediate",
+    advanced: "Advanced",
+    viewGuide: "View Guide",
+    recentlyViewed: "Recently Viewed",
+    levelSuffix: "Level",
+    sanskritNameLabel: "Sanskrit Name:",
+    breathingTechniqueLabel: "Breathing Technique:",
+    duration: "Duration",
+    targets: "Targets",
+    description: "Description",
+    keyBenefits: "Key Benefits",
+    stepsOfExecution: "Steps of Execution",
+    safetyPrecautions: "Safety Precautions",
+    subtitle: "Explore therapeutic poses, alignment guides, and controlled breathing methods.",
+    ttsPose: "Yoga Pose: ",
+    ttsTarget: ". Target Body Parts: ",
+    ttsInstructions: ". Instructions: ",
+    ttsBreathing: "Breathing Practice: ",
+    ttsTechnique: ". Technique: ",
+    ttsSteps: ". Steps: "
+  },
+  mr: {
+    tabAsanas: "योगासने (आसने)",
+    tabPranayamas: "प्राणायाम (श्वसन)",
+    difficultyLabel: "काठिण्य पातळी:",
+    allLevels: "सर्व पातळी",
+    beginner: "नवशिक्या",
+    intermediate: "मध्यम",
+    advanced: "प्रगत",
+    viewGuide: "मार्गदर्शक पहा",
+    recentlyViewed: "अलीकडे पाहिलेले",
+    levelSuffix: "पातळी",
+    sanskritNameLabel: "संस्कृत नाव:",
+    breathingTechniqueLabel: "श्वसन तंत्र:",
+    duration: "कालावधी",
+    targets: "लक्ष्य",
+    description: "वर्णन",
+    keyBenefits: "मुख्य फायदे",
+    stepsOfExecution: "पायऱ्या",
+    safetyPrecautions: "सुरक्षितता खबरदारी",
+    subtitle: "उपचारात्मक आसने, संरेखन मार्गदर्शक आणि नियंत्रित श्वासोच्छ्वासाच्या पद्धतींचा शोध घ्या.",
+    ttsPose: "योगासन: ",
+    ttsTarget: ". शरीराचे लक्ष्यित भाग: ",
+    ttsInstructions: ". मार्गदर्शक पायऱ्या: ",
+    ttsBreathing: "श्वसनाचा सराव: ",
+    ttsTechnique: ". पद्धत: ",
+    ttsSteps: ". पायऱ्या: "
+  },
+  hi: {
+    tabAsanas: "योगासन (मुद्राएं)",
+    tabPranayamas: "प्राणायाम (श्वसन)",
+    difficultyLabel: "कठिनाई स्तर:",
+    allLevels: "सभी स्तर",
+    beginner: "शुरुआती",
+    intermediate: "मध्यम",
+    advanced: "उन्नत",
+    viewGuide: "मार्गदर्शिका देखें",
+    recentlyViewed: "हाल ही में देखे गए",
+    levelSuffix: "स्तर",
+    sanskritNameLabel: "संस्कृत नाम:",
+    breathingTechniqueLabel: "श्वसन तकनीक:",
+    duration: "अवधि",
+    targets: "लक्ष्य",
+    description: "विवरण",
+    keyBenefits: "मुख्य लाभ",
+    stepsOfExecution: "चरण",
+    safetyPrecautions: "सुरक्षा सावधानियां",
+    subtitle: "चिकित्सकीय आसनों, संरेखण मार्गदर्शिकाओं और नियंत्रित श्वास विधियों का अन्वेषण करें।",
+    ttsPose: "योगासन: ",
+    ttsTarget: ". लक्षित अंग: ",
+    ttsInstructions: ". निर्देश: ",
+    ttsBreathing: "प्राणायाम अभ्यास: ",
+    ttsTechnique: ". तकनीक: ",
+    ttsSteps: ". चरण: "
+  }
+};
+
 export const Library: React.FC = () => {
   const { 
     language, 
@@ -21,6 +105,7 @@ export const Library: React.FC = () => {
     addRecentlyViewed
   } = useApp();
   const t = translations[language];
+  const lt = libraryTranslations[language] || libraryTranslations.en;
 
   const [activeTab, setActiveTab] = useState<"asanas" | "pranayamas">("asanas");
   const [searchQuery, setSearchQuery] = useState("");
@@ -79,7 +164,7 @@ export const Library: React.FC = () => {
             {t.navLibrary}
           </h1>
           <p className="mt-2 text-sm text-slate-400">
-            {language === "hi" ? "चिकित्सीय आसनों, संरेखण मार्गदर्शिकाओं और नियंत्रित श्वास विधियों का अन्वेषण करें।" : language === "mr" ? "उपचारात्मक आसने, संरेखन मार्गदर्शक आणि नियंत्रित श्वासोच्छ्वासाच्या पद्धतींचा शोध घ्या." : "Explore therapeutic poses, alignment guides, and controlled breathing methods."}
+            {lt.subtitle}
           </p>
         </div>
 
@@ -110,7 +195,7 @@ export const Library: React.FC = () => {
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            Yoga Asanas (Postures)
+            {lt.tabAsanas}
           </button>
           <button
             onClick={() => {
@@ -123,22 +208,22 @@ export const Library: React.FC = () => {
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            Pranayamas (Breathing)
+            {lt.tabPranayamas}
           </button>
         </div>
 
         {/* Difficulty Filter */}
         <div className="flex items-center space-x-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Difficulty:</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">{lt.difficultyLabel}</span>
           <select
             value={difficultyFilter}
             onChange={(e) => setDifficultyFilter(e.target.value)}
             className="rounded-xl border border-white/10 bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-300 focus:border-emerald-500 focus:outline-none"
           >
-            <option value="all">All Levels</option>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
+            <option value="all">{lt.allLevels}</option>
+            <option value="beginner">{lt.beginner}</option>
+            <option value="intermediate">{lt.intermediate}</option>
+            <option value="advanced">{lt.advanced}</option>
           </select>
         </div>
       </div>
@@ -164,7 +249,7 @@ export const Library: React.FC = () => {
                           ? "bg-sky-500/10 text-sky-400 border border-sky-500/20"
                           : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
                       }`}>
-                        {asana.difficulty}
+                        {asana.difficulty === "Beginner" ? lt.beginner : asana.difficulty === "Intermediate" ? lt.intermediate : lt.advanced}
                       </span>
                       <h3 className="mt-2 text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">
                         {asana.name}
@@ -192,13 +277,13 @@ export const Library: React.FC = () => {
                   </div>
 
                   <p className="text-sm text-slate-400 line-clamp-2">
-                    {asana.description}
+                     {asana.description}
                   </p>
 
                   {/* Target Body Parts */}
                   <div className="mt-4 flex flex-wrap gap-1">
                     {asana.targetBodyParts.map((part) => (
-                      <span key={part} className="rounded-lg bg-white/5 px-2 py-1 text-xxs font-medium text-slate-400 border border-white/5">
+                       <span key={part} className="rounded-lg bg-white/5 px-2 py-1 text-xxs font-medium text-slate-400 border border-white/5">
                         {part}
                       </span>
                     ))}
@@ -215,7 +300,7 @@ export const Library: React.FC = () => {
                     onClick={() => handleOpenAsana(asana)}
                     className="flex items-center space-x-1 text-xs font-semibold text-emerald-400 group-hover:translate-x-1 transition-all"
                   >
-                    <span>View Guide</span>
+                    <span>{lt.viewGuide}</span>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </button>
                 </div>
@@ -241,7 +326,7 @@ export const Library: React.FC = () => {
                           ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                           : "bg-sky-500/10 text-sky-400 border border-sky-500/20"
                       }`}>
-                        {pranayama.difficulty}
+                        {pranayama.difficulty === "Beginner" ? lt.beginner : pranayama.difficulty === "Intermediate" ? lt.intermediate : lt.advanced}
                       </span>
                       <h3 className="mt-2 text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">
                         {pranayama.name}
@@ -271,7 +356,7 @@ export const Library: React.FC = () => {
                   </div>
 
                   <p className="text-sm text-slate-400 line-clamp-3">
-                    {pranayama.benefits[0]}
+                     {pranayama.benefits[0]}
                   </p>
                 </div>
 
@@ -285,7 +370,7 @@ export const Library: React.FC = () => {
                     onClick={() => handleOpenPranayama(pranayama)}
                     className="flex items-center space-x-1 text-xs font-semibold text-emerald-400 group-hover:translate-x-1 transition-all"
                   >
-                    <span>View Guide</span>
+                    <span>{lt.viewGuide}</span>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </button>
                 </div>
@@ -299,7 +384,7 @@ export const Library: React.FC = () => {
       {recentlyViewed.length > 0 && (
         <div className="mt-16 rounded-2xl border border-white/5 bg-slate-900/20 p-6 backdrop-blur-md">
           <h3 className="text-white font-bold text-sm tracking-wider uppercase flex items-center gap-2 mb-4">
-            <Eye className="h-4 w-4 text-emerald-400" /> Recently Viewed
+            <Eye className="h-4 w-4 text-emerald-400" /> {lt.recentlyViewed}
           </h3>
           <div className="flex flex-wrap gap-3">
             {recentlyViewed.map((recent, idx) => {
@@ -357,19 +442,19 @@ export const Library: React.FC = () => {
               <div className="space-y-6">
                 <div>
                   <span className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-xs font-bold text-emerald-400 uppercase tracking-widest">
-                    {selectedAsana.difficulty} Level
+                    {selectedAsana.difficulty === "Beginner" ? lt.beginner : selectedAsana.difficulty === "Intermediate" ? lt.intermediate : lt.advanced} {lt.levelSuffix}
                   </span>
                   <h2 className="mt-3 text-3xl font-extrabold text-white">
                     {selectedAsana.name}
                   </h2>
                   <p className="text-sm text-slate-400 italic">
-                    Sanskrit Name: {selectedAsana.sanskritName} ({selectedAsana.englishName})
+                    {lt.sanskritNameLabel} {selectedAsana.sanskritName} ({selectedAsana.englishName})
                   </p>
                 </div>
 
                 {/* TTS Reader */}
                 <TextToSpeech
-                  text={`Yoga Pose: ${selectedAsana.name}. ${selectedAsana.description}. Target Body Parts: ${selectedAsana.targetBodyParts.join(", ")}. Instructions: ${selectedAsana.steps.join(". ")}.`}
+                  text={`${lt.ttsPose}${selectedAsana.name}. ${selectedAsana.description}${lt.ttsTarget}${selectedAsana.targetBodyParts.join(", ")}${lt.ttsInstructions}${selectedAsana.steps.join(". ")}.`}
                   language={language}
                 />
 
@@ -382,15 +467,15 @@ export const Library: React.FC = () => {
 
                     <div className="grid grid-cols-2 gap-3">
                       <div className="rounded-xl bg-white/5 border border-white/5 p-3">
-                        <span className="text-xxs font-bold text-slate-500 uppercase tracking-wider block">Duration</span>
+                        <span className="text-xxs font-bold text-slate-500 uppercase tracking-wider block">{lt.duration}</span>
                         <span className="text-sm font-semibold text-slate-300 flex items-center mt-1">
-                          <Clock className="h-4 w-4 text-emerald-400 mr-1.5" /> {selectedAsana.duration}
+                          <Clock className="h-4.5 w-4.5 text-emerald-400 mr-1.5" /> {selectedAsana.duration}
                         </span>
                       </div>
                       <div className="rounded-xl bg-white/5 border border-white/5 p-3">
-                        <span className="text-xxs font-bold text-slate-500 uppercase tracking-wider block">Targets</span>
+                        <span className="text-xxs font-bold text-slate-500 uppercase tracking-wider block">{lt.targets}</span>
                         <span className="text-xs font-semibold text-slate-300 flex items-center mt-1">
-                          <Dumbbell className="h-4 w-4 text-emerald-400 mr-1.5" /> {selectedAsana.targetBodyParts.slice(0, 2).join(", ")}
+                          <Dumbbell className="h-4.5 w-4.5 text-emerald-400 mr-1.5" /> {selectedAsana.targetBodyParts.slice(0, 2).join(", ")}
                         </span>
                       </div>
                     </div>
@@ -399,13 +484,13 @@ export const Library: React.FC = () => {
                   {/* Right Column (Description & Benefits) */}
                   <div className="space-y-4">
                     <div>
-                      <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-1.5">Description</h4>
+                      <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-1.5">{lt.description}</h4>
                       <p className="text-sm text-slate-300 leading-relaxed">{selectedAsana.description}</p>
                     </div>
 
                     <div>
                       <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-1.5 flex items-center gap-1">
-                        <Award className="h-4.5 w-4.5 text-emerald-400" /> Key Benefits
+                        <Award className="h-4.5 w-4.5 text-emerald-400" /> {lt.keyBenefits}
                       </h4>
                       <ul className="list-disc pl-5 text-sm text-slate-300 space-y-1">
                         {selectedAsana.benefits.map((b, i) => (
@@ -418,7 +503,7 @@ export const Library: React.FC = () => {
 
                 {/* Steps */}
                 <div className="border-t border-white/5 pt-5">
-                  <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-3">Steps of Execution</h4>
+                  <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-3">{lt.stepsOfExecution}</h4>
                   <ol className="list-decimal pl-5 text-sm text-slate-300 space-y-2">
                     {selectedAsana.steps.map((step, index) => (
                       <li key={index} className="pl-1 leading-relaxed">{step}</li>
@@ -430,7 +515,7 @@ export const Library: React.FC = () => {
                 {selectedAsana.precautions.length > 0 && (
                   <div className="border-t border-white/5 pt-5">
                     <h4 className="text-rose-400 font-bold text-sm uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                      <ShieldAlert className="h-4.5 w-4.5" /> Safety Precautions
+                      <ShieldAlert className="h-4.5 w-4.5" /> {lt.safetyPrecautions}
                     </h4>
                     <ul className="list-disc pl-5 text-xs text-rose-300/80 space-y-1">
                       {selectedAsana.precautions.map((p, i) => (
@@ -467,19 +552,19 @@ export const Library: React.FC = () => {
               <div className="space-y-6">
                 <div>
                   <span className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-xs font-bold text-emerald-400 uppercase tracking-widest">
-                    {selectedPranayama.difficulty} Level
+                    {selectedPranayama.difficulty === "Beginner" ? lt.beginner : selectedPranayama.difficulty === "Intermediate" ? lt.intermediate : lt.advanced} {lt.levelSuffix}
                   </span>
                   <h2 className="mt-3 text-3xl font-extrabold text-white">
                     {selectedPranayama.name}
                   </h2>
                   <p className="text-sm text-slate-400 italic">
-                    Breathing Technique: {selectedPranayama.technique}
+                    {lt.breathingTechniqueLabel} {selectedPranayama.technique}
                   </p>
                 </div>
 
                 {/* TTS Reader */}
                 <TextToSpeech
-                  text={`Breathing Practice: ${selectedPranayama.name}. Technique: ${selectedPranayama.technique}. Steps: ${selectedPranayama.steps.join(". ")}.`}
+                  text={`${lt.ttsBreathing}${selectedPranayama.name}${lt.ttsTechnique}${selectedPranayama.technique}${lt.ttsSteps}${selectedPranayama.steps.join(". ")}.`}
                   language={language}
                 />
 
@@ -493,7 +578,7 @@ export const Library: React.FC = () => {
                     </div>
 
                     <div className="rounded-xl bg-white/5 border border-white/5 p-4">
-                      <span className="text-xxs font-bold text-slate-500 uppercase tracking-wider block">Duration</span>
+                      <span className="text-xxs font-bold text-slate-500 uppercase tracking-wider block">{lt.duration}</span>
                       <span className="text-sm font-semibold text-slate-300 flex items-center mt-1">
                         <Clock className="h-4.5 w-4.5 text-teal-400 mr-1.5" /> {selectedPranayama.duration}
                       </span>
@@ -504,7 +589,7 @@ export const Library: React.FC = () => {
                   <div className="space-y-4">
                     <div>
                       <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-1">
-                        <Award className="h-4.5 w-4.5 text-teal-400" /> Key Benefits
+                        <Award className="h-4.5 w-4.5 text-teal-400" /> {lt.keyBenefits}
                       </h4>
                       <ul className="list-disc pl-5 text-sm text-slate-300 space-y-1.5">
                         {selectedPranayama.benefits.map((b, i) => (
@@ -517,7 +602,7 @@ export const Library: React.FC = () => {
 
                 {/* Steps */}
                 <div className="border-t border-white/5 pt-5">
-                  <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-3">Steps of Execution</h4>
+                  <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-3">{lt.stepsOfExecution}</h4>
                   <ol className="list-decimal pl-5 text-sm text-slate-300 space-y-2">
                     {selectedPranayama.steps.map((step, index) => (
                       <li key={index} className="pl-1 leading-relaxed">{step}</li>
@@ -529,7 +614,7 @@ export const Library: React.FC = () => {
                 {selectedPranayama.precautions.length > 0 && (
                   <div className="border-t border-white/5 pt-5">
                     <h4 className="text-rose-400 font-bold text-sm uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                      <ShieldAlert className="h-4.5 w-4.5" /> Safety Precautions
+                      <ShieldAlert className="h-4.5 w-4.5" /> {lt.safetyPrecautions}
                     </h4>
                     <ul className="list-disc pl-5 text-xs text-rose-300/80 space-y-1">
                       {selectedPranayama.precautions.map((p, i) => (

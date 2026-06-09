@@ -10,9 +10,41 @@ interface HeaderProps {
   setActiveTab: (tab: string) => void;
 }
 
+const headerTranslations = {
+  en: {
+    brandName: "YogaHealth AI",
+    guestUser: "Guest User",
+    loginTitle: "Login to YogaHealth AI",
+    enterName: "Enter Your Name",
+    placeholderName: "e.g., Jane Doe",
+    confirmLogin: "Confirm Log In",
+    continueGuest: "Continue in Guest Mode"
+  },
+  mr: {
+    brandName: "योगहेल्थ AI",
+    guestUser: "अतिथी वापरकर्ता",
+    loginTitle: "योगहेल्थ AI मध्ये लॉगिन करा",
+    enterName: "तुमचे नाव प्रविष्ट करा",
+    placeholderName: "उदा., राहुल पाटील",
+    confirmLogin: "लॉगिनची पुष्टी करा",
+    continueGuest: "अतिथी मोडमध्ये सुरू ठेवा"
+  },
+  hi: {
+    brandName: "योगहेल्थ AI",
+    guestUser: "अतिथि उपयोगकर्ता",
+    loginTitle: "योगहेल्थ AI में लॉगिन करें",
+    enterName: "अपना नाम दर्ज करें",
+    placeholderName: "उदा., राहुल शर्मा",
+    confirmLogin: "लॉगिन की पुष्टि करें",
+    continueGuest: "अतिथि मोड में जारी रखें"
+  }
+};
+
 export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const { theme, toggleTheme, language, setLanguage, streak } = useApp();
   const t = translations[language];
+  const ht = headerTranslations[language] || headerTranslations.en;
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [username, setUsername] = useState("");
@@ -55,6 +87,8 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
     { id: "educational", label: t.navEducational },
   ];
 
+  const translatedCurrentUser = currentUser === "Guest User" ? ht.guestUser : currentUser;
+
   return (
     <>
       <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-slate-900/60 backdrop-blur-md dark:bg-slate-950/60 transition-colors duration-300">
@@ -73,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 </span>
               </div>
               <span className="hidden bg-gradient-to-r from-emerald-400 to-teal-200 bg-clip-text text-xl font-extrabold tracking-tight text-transparent sm:block font-sans">
-                YogaHealth AI
+                {ht.brandName}
               </span>
             </div>
 
@@ -155,7 +189,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 >
                   <User className="h-4 w-4" />
                   <span className="hidden text-xs font-semibold sm:inline-block max-w-[80px] truncate">
-                    {currentUser}
+                    {translatedCurrentUser}
                   </span>
                   {isLoggedIn ? <LogOut className="h-3.5 w-3.5 text-rose-400" /> : <LogIn className="h-3.5 w-3.5 text-emerald-400" />}
                 </button>
@@ -203,7 +237,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-900 p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-4 border-b border-white/10">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <Award className="text-emerald-400" /> Login to YogaHealth AI
+                <Award className="text-emerald-400" /> {ht.loginTitle}
               </h3>
               <button
                 onClick={() => setIsAuthModalOpen(false)}
@@ -216,15 +250,15 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             <form onSubmit={handleLogin} className="mt-6 space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                  Enter Your Name
+                  {ht.enterName}
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g., Jane Doe"
+                  placeholder={ht.placeholderName}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
+                  className="w-full rounded-xl border border-white/10 bg-slate-950/40 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
@@ -233,7 +267,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                   type="submit"
                   className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 hover:from-emerald-400 hover:to-teal-300 transition-all duration-300"
                 >
-                  Confirm Log In
+                  {ht.confirmLogin}
                 </button>
               </div>
 
@@ -248,7 +282,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                   }}
                   className="text-xs text-slate-400 hover:text-white underline transition-all"
                 >
-                  Continue in Guest Mode
+                  {ht.continueGuest}
                 </button>
               </div>
             </form>

@@ -30,16 +30,32 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab }) => {
               {t.footerText}
             </p>
             <div className="flex items-center space-x-1 text-xs text-slate-500">
-              <span>Made with</span>
-              <Heart className="h-3 w-3 text-rose-500 fill-rose-500" />
-              <span>for healthy living</span>
+              {language === "mr" ? (
+                <>
+                  <span>आरोग्यदायी जीवनासाठी</span>
+                  <Heart className="h-3 w-3 text-rose-500 fill-rose-500 animate-pulse" />
+                  <span>द्वारे बनवलेले</span>
+                </>
+              ) : language === "hi" ? (
+                <>
+                  <span>स्वस्थ जीवन के लिए</span>
+                  <Heart className="h-3 w-3 text-rose-500 fill-rose-500 animate-pulse" />
+                  <span>से निर्मित</span>
+                </>
+              ) : (
+                <>
+                  <span>Made with</span>
+                  <Heart className="h-3 w-3 text-rose-500 fill-rose-500" />
+                  <span>for healthy living</span>
+                </>
+              )}
             </div>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-4">
             <h4 className="text-white text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
-              <Compass className="h-4 w-4 text-emerald-400" /> Quick Navigation
+              <Compass className="h-4 w-4 text-emerald-400" /> {t.quickNavigation}
             </h4>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <button 
@@ -78,22 +94,22 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab }) => {
           {/* Educational Resources & Disclaimer Title */}
           <div className="space-y-4">
             <h4 className="text-white text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
-              <BookOpen className="h-4 w-4 text-teal-400" /> Resources
+              <BookOpen className="h-4 w-4 text-teal-400" /> {t.resourcesTitle}
             </h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <button onClick={() => setActiveTab("educational")} className="hover:text-white transition-colors">
-                  What is Yoga & Ayurveda?
+                  {t.whatIsYogaAyurveda}
                 </button>
               </li>
               <li>
                 <button onClick={() => setActiveTab("educational")} className="hover:text-white transition-colors">
-                  Scientific Healing Principles
+                  {t.scientificHealing}
                 </button>
               </li>
               <li>
                 <button onClick={() => setActiveTab("educational")} className="hover:text-white transition-colors">
-                  Preventative Healthcare Guide
+                  {t.preventativeHealthcare}
                 </button>
               </li>
             </ul>
@@ -104,7 +120,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab }) => {
         <div className="mt-8 flex flex-col items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
           <div className="flex items-center gap-2 text-amber-400 font-semibold text-sm">
             <ShieldAlert className="h-5 w-5" />
-            <span>Medical Disclaimer</span>
+            <span>{t.medicalDisclaimerTitle}</span>
           </div>
           <p className="text-xs leading-relaxed text-slate-400">
             {t.disclaimer}
@@ -112,7 +128,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab }) => {
         </div>
 
         <div className="mt-8 text-center text-xs text-slate-600">
-          © {new Date().getFullYear()} Yoga Health Guide AI. All rights reserved.
+          © {new Date().getFullYear()} Yoga Health Guide AI. {t.allRightsReserved}
         </div>
       </div>
     </footer>

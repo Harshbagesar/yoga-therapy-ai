@@ -133,7 +133,44 @@ export const translations = {
 
     // Footer
     footerText: "Yoga Health Guide AI. Combining ancient Ayurvedic wisdom with modern artificial intelligence.",
-    disclaimer: "Disclaimer: The content on this website is for informational and educational purposes only and does not constitute professional medical advice, diagnosis, or treatment. Always consult your physician before starting any new yoga practice."
+    disclaimer: "Disclaimer: The content on this website is for informational and educational purposes only and does not constitute professional medical advice, diagnosis, or treatment. Always consult your physician before starting any new yoga practice.",
+
+    // Landing Page Additional Localizations
+    quickLookups: "Quick Clinical Lookups",
+    therapeuticProfile: "Therapeutic Disease Profile",
+    symptomsAndRisks: "Symptoms & Risks",
+    keySymptoms: "Key Symptoms",
+    dietStrategy: "Diet Strategy",
+    consume: "Consume",
+    avoid: "Avoid",
+    hydrationTarget: "Hydration Target",
+    inspectPosture: "Inspect Posture →",
+    inspectTechnique: "Inspect Technique →",
+    homeRemediesTitle: "Home Remedies",
+    safetyWarnings: "Safety Warnings",
+    dailyHabits: "Daily Habits",
+    pdfGuidePrompt: "Need a printable guide or clinical plan for this condition?",
+    pdfGuideDesc: "Generate a comprehensive, custom therapy plan for the selected condition, including recommended sequences, dietary guidelines, and a weekly progress tracker.",
+    btnGenerateTherapyPlan: "Generate Therapy Plan",
+    scientificMethodology: "Scientific Methodology",
+    lifestyleDiseasesProfiled: "Lifestyle Diseases Profiled",
+    detailedPoses: "Detailed Poses & Techniques",
+    descriptionLabel: "Description",
+    stepsLabel: "Steps of Practice",
+    breathingMethodLabel: "Breathing Method",
+    precautionsLabel: "Precautions",
+
+    // Footer Additional Localizations
+    accessibilitySection508: "Section 508 Compliant",
+    accessibilityWaiAria: "WAI-ARIA Accessibility Standards",
+    clinicalVerificationLogs: "Clinical Verification Logs",
+    quickNavigation: "Quick Navigation",
+    resourcesTitle: "Resources",
+    whatIsYogaAyurveda: "What is Yoga & Ayurveda?",
+    scientificHealing: "Scientific Healing Principles",
+    preventativeHealthcare: "Preventative Healthcare Guide",
+    medicalDisclaimerTitle: "Medical Disclaimer",
+    allRightsReserved: "All rights reserved."
   },
   hi: {
     navHome: "मुख्य पृष्ठ",
@@ -269,7 +306,44 @@ export const translations = {
 
     // Footer
     footerText: "योग स्वास्थ्य गाइड एआई। प्राचीन आयुर्वेदिक ज्ञान और आधुनिक कृत्रिम बुद्धिमत्ता का संगम।",
-    disclaimer: "अस्वीकरण: इस वेबसाइट की सामग्री केवल सूचनात्मक और शैक्षिक उद्देश्यों के लिए है और पेशेवर चिकित्सा सलाह, निदान या उपचार का विकल्प नहीं है। किसी भी नए योग अभ्यास को शुरू करने से पहले हमेशा अपने चिकित्सक से परामर्श करें।"
+    disclaimer: "अस्वीकरण: इस वेबसाइट की सामग्री केवल सूचनात्मक और शैक्षिक उद्देश्यों के लिए है और पेशेवर चिकित्सा सलाह, निदान या उपचार का विकल्प नहीं है। किसी भी नए योग अभ्यास को शुरू करने से पहले हमेशा अपने चिकित्सक से परामर्श करें।",
+
+    // Landing Page Additional Localizations
+    quickLookups: "त्वरित नैदानिक ​​जांच",
+    therapeuticProfile: "उपचारात्मक रोग प्रोफाइल",
+    symptomsAndRisks: "लक्षण और जोखिम",
+    keySymptoms: "मुख्य लक्षण",
+    dietStrategy: "आहार रणनीति",
+    consume: "सेवन करें",
+    avoid: "परहेज करें",
+    hydrationTarget: "जलयोजन लक्ष्य",
+    inspectPosture: "आसन का निरीक्षण करें →",
+    inspectTechnique: "तकनीक का निरीक्षण करें →",
+    homeRemediesTitle: "घरेलू उपचार",
+    safetyWarnings: "सुरक्षा चेतावनियां",
+    dailyHabits: "दैनिक आदतें",
+    pdfGuidePrompt: "क्या आपको इस स्थिति के लिए एक मुद्रण योग्य गाइड या नैदानिक ​​योजना की आवश्यकता है?",
+    pdfGuideDesc: "अनुशंसित अनुक्रमों, आहार दिशानिर्देशों और साप्ताहिक प्रगति ट्रैकर सहित चयनित स्थिति के लिए एक व्यापक, कस्टम थेरेपी योजना तैयार करें।",
+    btnGenerateTherapyPlan: "थेरेपी योजना उत्पन्न करें",
+    scientificMethodology: "वैज्ञानिक पद्धति",
+    lifestyleDiseasesProfiled: "प्रोफाइल की गई जीवनशैली बीमारियां",
+    detailedPoses: "विस्तृत आसन और तकनीक",
+    descriptionLabel: "विवरण",
+    stepsLabel: "अभ्यास के चरण",
+    breathingMethodLabel: "श्वसन विधि",
+    precautionsLabel: "सावधानियां",
+
+    // Footer Additional Localizations
+    accessibilitySection508: "धारा 508 अनुपालन",
+    accessibilityWaiAria: "WAI-ARIA पहुंच मानक",
+    clinicalVerificationLogs: "नैदानिक ​​​​सत्यापन लॉग",
+    quickNavigation: "त्वरित नेविगेशन",
+    resourcesTitle: "संसाधन",
+    whatIsYogaAyurveda: "योग और आयुर्वेद क्या है?",
+    scientificHealing: "वैज्ञानिक उपचार सिद्धांत",
+    preventativeHealthcare: "निवारक स्वास्थ्य देखभाल गाइड",
+    medicalDisclaimerTitle: "चिकित्सा अस्वीकरण",
+    allRightsReserved: "सर्वाधिकार सुरक्षित।"
   },
   mr: {
     navHome: "मुख्य पृष्ठ",
@@ -405,6 +479,43 @@ export const translations = {
 
     // Footer
     footerText: "योग आरोग्य मार्गदर्शक एआय. प्राचीन आयुर्वेदिक ज्ञान आणि आधुनिक कृत्रिम बुद्धिमत्ता यांचा संगम.",
-    disclaimer: "अस्वीकरण: या वेबसाइटवरील माहिती केवळ शैक्षणिक आणि सामान्य माहितीसाठी आहे. ती व्यावसायिक वैद्यकीय सल्ला किंवा उपचाराचा पर्याय नाही. कोणताही नवीन योग सराव सुरू करण्यापूर्वी नेहमी डॉक्टरांचा सल्ला घ्या।"
+    disclaimer: "अस्वीकरण: या वेबसाइटवरील माहिती केवळ शैक्षणिक आणि सामान्य माहितीसाठी आहे. ती व्यावसायिक वैद्यकीय सल्ला किंवा उपचाराचा पर्याय नाही. कोणताही नवीन योग सराव सुरू करण्यापूर्वी नेहमी डॉक्टरांचा सल्ला घ्या।",
+
+    // Landing Page Additional Localizations
+    quickLookups: "त्वरित तपासणी",
+    therapeuticProfile: "उपचारात्मक आजार प्रोफाइल",
+    symptomsAndRisks: "लक्षणे आणि जोखीम",
+    keySymptoms: "मुख्य लक्षणे",
+    dietStrategy: "आहार धोरण",
+    consume: "सेवन करावे",
+    avoid: "टाळावे",
+    hydrationTarget: "हायड्रेशन लक्ष्य",
+    inspectPosture: "आसन तपासा →",
+    inspectTechnique: "तंत्र तपासा →",
+    homeRemediesTitle: "घरगुती उपाय",
+    safetyWarnings: "सुरक्षा इशारे",
+    dailyHabits: "दैनिक सवयी",
+    pdfGuidePrompt: "तुम्हाला या स्थितीसाठी प्रिंट करण्यायोग्य मार्गदर्शक किंवा क्लिनिकल प्लॅनची ​​आवश्यकता आहे का?",
+    pdfGuideDesc: "शिफारस केलेले सराव प्रकार, आहार मार्गदर्शक तत्त्वे आणि साप्ताहिक प्रगती ट्रॅकरसह निवडलेल्या स्थितीसाठी सर्वसमावेशक, सानुकूल उपचार योजना तयार करा.",
+    btnGenerateTherapyPlan: "उपचार योजना तयार करा",
+    scientificMethodology: "वैज्ञानिक पद्धती",
+    lifestyleDiseasesProfiled: "जीवनशैली आजार प्रोफाइल",
+    detailedPoses: "तपशीलवार आसने आणि तंत्रे",
+    descriptionLabel: "वर्णन",
+    stepsLabel: "अभ्यासाचे टप्पे",
+    breathingMethodLabel: "श्वसन पद्धत",
+    precautionsLabel: "खबरदारी",
+
+    // Footer Additional Localizations
+    accessibilitySection508: "कलम ५०८ सुसंगत",
+    accessibilityWaiAria: "WAI-ARIA ॲक्सेसिबिलिटी मानके",
+    clinicalVerificationLogs: "क्लिनिकल पडताळणी लॉग",
+    quickNavigation: "त्वरित मार्गक्रमण",
+    resourcesTitle: "साधने व माहिती",
+    whatIsYogaAyurveda: "योग आणि आयुर्वेद म्हणजे काय?",
+    scientificHealing: "वैज्ञानिक उपचारांचे सिद्धांत",
+    preventativeHealthcare: "प्रतिबंधात्मक आरोग्य मार्गदर्शक",
+    medicalDisclaimerTitle: "वैद्यकीय अस्वीकरण",
+    allRightsReserved: "सर्व हक्क सुरक्षित."
   }
 };
